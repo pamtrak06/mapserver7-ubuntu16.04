@@ -66,28 +66,19 @@ RUN mkdir /usr/local/src/mapserver/build && \
     ldconfig
 
 
-# Install the Apache Worker MPM (Multi-Procesing Modules)
-RUN apt-get update && apt-get install -y apache2-mpm-worker
-
 # To reconcile this, the multiverse repository must be added to the apt sources.
 RUN echo 'deb http://security.ubuntu.com/ubuntu xenial multiverse' >> /etc/apt/sources.list
 RUN echo 'deb http://security.ubuntu.com/ubuntu xenial-updates multiverse' >> /etc/apt/sources.list
 RUN echo 'deb http://security.ubuntu.com/ubuntu xenial-security multiverse' >> /etc/apt/sources.list
 
 # Install PHP5 and necessary modules
-RUN apt-get update && apt-get install -y libapache2-mod-fastcgi php5-fpm libapache2-mod-php5 php5-common php5-cli php5-fpm php5
+RUN apt-get update && apt-get install -y libapache2-mod-fastcgi php7.0-fpm php7.0
 
 # Enable these Apache modules
-RUN sudo a2enmod actions cgi alias
-
-# Restart apache
-#RUN sudo service apache2 start
+RUN a2enmod actions cgi alias
 
 # Apache configuration for PHP-FPM
-COPY php5-fpm.conf /etc/apache2/conf-available/
-
-# Restart apache
-#RUN sudo service apache2 restart
+COPY php7-fpm.conf /etc/apache2/conf-available/
 
 # Create the following PHP file in the document root /var/www
 RUN echo '<?php phpinfo();' > /var/www/info.php
@@ -99,12 +90,11 @@ RUN chmod o+x /usr/local/bin/mapserv
 RUN ln -s /usr/local/bin/mapserv /usr/lib/cgi-bin/mapserv
 # result in http://yourhostname.com/cgi-bin/mapserv
 
+# Volumes: override it
+#VOLUME ["/var/www", "/var/log/apache2", "/etc/apache2"]
 
-# Volumes
-VOLUME ["/var/www", "/var/log/apache2", "/etc/apache2"]
-
-# Expose ports
-EXPOSE 22 80 443
+# Expose ports: override others
+EXPOSE 443
 
 # Define default command
 CMD ["apachectl", "-D", "FOREGROUND"]
