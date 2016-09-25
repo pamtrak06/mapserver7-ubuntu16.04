@@ -50,7 +50,7 @@ export DOCKER_MACHINE_NAME="default"
 
 Test win/mac install  : http://192.168.99.100:8989/cgi-bin/mapserv
 
-Test lin install      : http://<host ip>:8989/cgi-bin/mapserv
+Test lin install      : http://<ip>:8989/cgi-bin/mapserv
 
 ```
 No query information to decode. QUERY_STRING is set, but empty.
