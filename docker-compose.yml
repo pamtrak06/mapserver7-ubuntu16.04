@@ -3,7 +3,7 @@ web:
   links:
    - db
   ports:
-   - "8787:80"
+   - "8989:80"
   volume:
   - ./data:/var/lib/postgresql
 db:
