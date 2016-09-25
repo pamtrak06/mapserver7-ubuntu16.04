@@ -93,8 +93,7 @@ RUN ln -s /usr/local/bin/mapserv /usr/lib/cgi-bin/mapserv
 # Volumes: override it
 #VOLUME ["/var/www", "/var/log/apache2", "/etc/apache2"]
 
-# Expose ports: override others
-EXPOSE 443
+# Expose ports: override for needs
 
 # Define default command
 CMD ["apachectl", "-D", "FOREGROUND"]
